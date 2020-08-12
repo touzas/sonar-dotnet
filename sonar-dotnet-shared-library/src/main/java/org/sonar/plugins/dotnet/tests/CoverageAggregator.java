@@ -22,7 +22,7 @@ package org.sonar.plugins.dotnet.tests;
 import java.io.File;
 import java.util.Set;
 import java.util.function.Predicate;
-import org.sonar.api.batch.ScannerSide;
+import org.sonar.api.scanner.ScannerSide;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.internal.google.common.annotations.VisibleForTesting;
