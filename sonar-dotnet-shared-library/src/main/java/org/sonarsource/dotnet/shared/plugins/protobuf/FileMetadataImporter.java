@@ -53,9 +53,13 @@ public class FileMetadataImporter extends RawProtobufImporter<FileMetadataInfo> 
 
   @Override
   void consume(FileMetadataInfo message) {
-    URI fileUri = Paths.get(message.getFilePath()).toUri();
+    String path = message.getFilePath();
+    URI fileUri = Paths.get(path).toUri();
     if (message.getIsGenerated()) {
       generatedFileUris.add(fileUri);
+      LOG.info("Import GENERATED path: {}, uri: {}", path, fileUri);
+    } else {
+      LOG.info("Import NORMAL path: {}, uri: {}", path, fileUri);
     }
     String roslynEncoding = message.getEncoding();
     Charset charset = null;

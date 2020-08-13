@@ -80,6 +80,9 @@ public abstract class AbstractGlobalProtobufFileProcessor extends ProjectBuilder
       fileMetadataImporter.accept(metadataReportProtobuf);
       this.generatedFileUris.addAll(fileMetadataImporter.getGeneratedFileUris());
       this.roslynEncodingPerUri.putAll(fileMetadataImporter.getEncodingPerUri());
+      for (URI uri : this.generatedFileUris) {
+        LOG.info("generatedFileUris.add: " + uri);
+      }
     }
   }
 
