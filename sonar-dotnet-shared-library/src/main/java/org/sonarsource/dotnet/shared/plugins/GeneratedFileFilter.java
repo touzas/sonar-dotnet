@@ -19,9 +19,6 @@
  */
 package org.sonarsource.dotnet.shared.plugins;
 
-import java.net.URI;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputFileFilter;
 import org.sonar.api.utils.log.Logger;
@@ -55,21 +52,14 @@ public class GeneratedFileFilter implements InputFileFilter {
     if (analyzeGeneratedCode) {
       return true;
     }
-    boolean isGenerated = globalReportProcessor.getGeneratedFileUris().contains(inputFile.uri());
+    boolean isGenerated = globalReportProcessor.getGeneratedFileUppercaseUris().contains(inputFile.uri().toString().toUpperCase());
 
-    LOG.info("ACCEPT isGenerated: {}, path: {}, uri: {}", isGenerated, inputFile.path(), inputFile.uri());
-
-    Set<URI> normalizedUris = globalReportProcessor.getGeneratedFileUris().stream().map(x -> x.normalize()).collect(Collectors.toSet());
-    boolean isNormalized = normalizedUris.contains(inputFile.uri().normalize());
-    LOG.info("ACCEPT isNormalized: {}, path: {}, uri: {}", isNormalized, inputFile.path(), inputFile.uri());
-
-    long count = globalReportProcessor.getGeneratedFileUris().stream().filter(x -> x.compareTo(inputFile.uri()) == 0).count();
-    LOG.info("ACCEPT compareTo count: {}", count);
+    // FIXME: REMOVE DEBUG
+    LOG.info("ACCEPT isGenerated: {}, uri: {}", isGenerated, inputFile.uri());
 
     if (isGenerated) {
       LOG.debug("Skipping auto generated file: {}", inputFile);
     }
     return !isGenerated;
   }
-
 }
